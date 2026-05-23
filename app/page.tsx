@@ -79,7 +79,7 @@ export default function Home() {
       {/* --- 第1層サイドバー --- */}
       <div className="w-24 flex flex-col items-center py-6 gap-6 z-10 shrink-0">
         <button onClick={() => setOpenSidebar(openSidebar === "schedule" ? null : "schedule")} className={`p-2 rounded w-16 text-sm ${activeMenu1 === "schedule" || openSidebar === "schedule" ? "bg-gray-800 font-bold" : "text-gray-400 hover:bg-gray-800"}`}>日程</button>
-        <button onClick={() => setOpenSidebar(openSidebar === "team" ? null : "team")} className={`p-2 rounded w-16 text-sm ${activeMenu1 === "team" || openSidebar === "team" ? "bg-gray-800 font-bold" : "text-gray-400 hover:bg-gray-800"}`}>チーム</button>
+        <button onClick={() => {setIsGroupExpanded(false); setOpenSidebar(openSidebar === "team" ? null : "team")}} className={`p-2 rounded w-16 text-sm ${activeMenu1 === "team" || openSidebar === "team" ? "bg-gray-800 font-bold" : "text-gray-400 hover:bg-gray-800"}`}>チーム</button>
       </div>
 
       {/* --- 第2層サイドバー --- */}
@@ -99,7 +99,7 @@ export default function Home() {
                   <ul className="ml-4 mt-2 space-y-1 border-l border-gray-700 pl-2">
                     {Object.keys(groupMap).map(key => (
                       <li key={key}>
-                        <button onClick={() => { setActiveMenu2(`group-${key}`); setOpenSidebar(null); }} className={`w-full text-left p-2 rounded text-sm ${activeMenu2 === `group-${key}` ? "bg-gray-700 text-white font-bold" : "text-gray-400 hover:bg-gray-700"}`}>グループ {key}</button>
+                        <button onClick={() => { setActiveMenu1("schedule"); setActiveMenu2(`group-${key}`); setOpenSidebar(null); }} className={`w-full text-left p-2 rounded text-sm ${activeMenu2 === `group-${key}` ? "bg-gray-700 text-white font-bold" : "text-gray-400 hover:bg-gray-700"}`}>グループ {key}</button>
                       </li>
                     ))}
                   </ul>
