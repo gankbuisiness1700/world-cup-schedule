@@ -1,61 +1,14 @@
 [
-  { "id": "mex", "name": "メキシコ", "group": "グループA" },
-  { "id": "kor", "name": "韓国", "group": "グループA" },
-  { "id": "zaf", "name": "南アフリカ", "group": "グループA" },
-  { "id": "cze", "name": "チェコ", "group": "グループA" },
-  
-  { "id": "can", "name": "カナダ", "group": "グループB" },
-  { "id": "che", "name": "スイス", "group": "グループB" },
-  { "id": "qat", "name": "カタール", "group": "グループB" },
-  { "id": "bih", "name": "ボスニア・ヘルツェゴビナ", "group": "グループB" },
-  
-  { "id": "bra", "name": "ブラジル", "group": "グループC" },
-  { "id": "mar", "name": "モロッコ", "group": "グループC" },
-  { "id": "GB-SCT", "name": "スコットランド", "group": "グループC" },
-  { "id": "hti", "name": "ハイチ", "group": "グループC" },
-  
-  { "id": "usa", "name": "アメリカ", "group": "グループD" },
-  { "id": "aus", "name": "オーストラリア", "group": "グループD" },
-  { "id": "pry", "name": "パラグアイ", "group": "グループD" },
-  { "id": "tur", "name": "トルコ", "group": "グループD" },
-  
-  { "id": "deu", "name": "ドイツ", "group": "グループE" },
-  { "id": "ecu", "name": "エクアドル", "group": "グループE" },
-  { "id": "civ", "name": "コートジボワール", "group": "グループE" },
-  { "id": "cuw", "name": "キュラソー", "group": "グループE" },
-  
-  { "id": "nld", "name": "オランダ", "group": "グループF" },
-  { "id": "jpn", "name": "日本", "group": "グループF" },
-  { "id": "tun", "name": "チュニジア", "group": "グループF" },
-  { "id": "swe", "name": "スウェーデン", "group": "グループF" },
-  
-  { "id": "bel", "name": "ベルギー", "group": "グループG" },
-  { "id": "irn", "name": "イラン", "group": "グループG" },
-  { "id": "egy", "name": "エジプト", "group": "グループG" },
-  { "id": "nzl", "name": "ニュージーランド", "group": "グループG" },
-  
-  { "id": "esp", "name": "スペイン", "group": "グループH" },
-  { "id": "ury", "name": "ウルグアイ", "group": "グループH" },
-  { "id": "sau", "name": "サウジアラビア", "group": "グループH" },
-  { "id": "cpv", "name": "カーボベルデ", "group": "グループH" },
-  
-  { "id": "fra", "name": "フランス", "group": "グループI" },
-  { "id": "sen", "name": "セネガル", "group": "グループI" },
-  { "id": "nor", "name": "ノルウェー", "group": "グループI" },
-  { "id": "irq", "name": "イラク", "group": "グループI" },
-  
-  { "id": "arg", "name": "アルゼンチン", "group": "グループJ" },
-  { "id": "aut", "name": "オーストリア", "group": "グループJ" },
-  { "id": "dza", "name": "アルジェリア", "group": "グループJ" },
-  { "id": "jor", "name": "ヨルダン", "group": "グループJ" },
-  
-  { "id": "prt", "name": "ポルトガル", "group": "グループK" },
-  { "id": "col", "name": "コロンビア", "group": "グループK" },
-  { "id": "uzb", "name": "ウズベキスタン", "group": "グループK" },
-  { "id": "cod", "name": "コンゴ民主共和国", "group": "グループK" },
-  
-  { "id": "GB-ENG", "name": "イングランド", "group": "グループL" },
-  { "id": "hrv", "name": "クロアチア", "group": "グループL" },
-  { "id": "pan", "name": "パナマ", "group": "グループL" },
-  { "id": "gha", "name": "ガーナ", "group": "グループL" }
+  { "id": "mex", "name": "メキシコ" }, { "id": "kor", "name": "韓国" }, { "id": "zaf", "name": "南アフリカ" }, { "id": "cze", "name": "チェコ" },
+  { "id": "can", "name": "カナダ" }, { "id": "che", "name": "スイス" }, { "id": "qat", "name": "カタール" }, { "id": "bih", "name": "ボスニア・ヘルツェゴビナ" },
+  { "id": "bra", "name": "ブラジル" }, { "id": "mar", "name": "モロッコ" }, { "id": "GB-SCT", "name": "スコットランド" }, { "id": "hti", "name": "ハイチ" },
+  { "id": "usa", "name": "アメリカ" }, { "id": "aus", "name": "オーストラリア" }, { "id": "pry", "name": "パラグアイ" }, { "id": "tur", "name": "トルコ" },
+  { "id": "deu", "name": "ドイツ" }, { "id": "ecu", "name": "エクアドル" }, { "id": "civ", "name": "コートジボワール" }, { "id": "cuw", "name": "キュラソー" },
+  { "id": "nld", "name": "オランダ" }, { "id": "jpn", "name": "日本" }, { "id": "tun", "name": "チュニジア" }, { "id": "swe", "name": "スウェーデン" },
+  { "id": "bel", "name": "ベルギー" }, { "id": "irn", "name": "イラン" }, { "id": "egy", "name": "エジプト" }, { "id": "nzl", "name": "ニュージーランド" },
+  { "id": "esp", "name": "スペイン" }, { "id": "ury", "name": "ウルグアイ" }, { "id": "sau", "name": "サウジアラビア" }, { "id": "cpv", "name": "カーボベルデ" },
+  { "id": "fra", "name": "フランス" }, { "id": "sen", "name": "セネガル" }, { "id": "nor", "name": "ノルウェー" }, { "id": "irq", "name": "イラク" },
+  { "id": "arg", "name": "アルゼンチン" }, { "id": "aut", "name": "オーストリア" }, { "id": "dza", "name": "アルジェリア" }, { "id": "jor", "name": "ヨルダン" },
+  { "id": "prt", "name": "ポルトガル" }, { "id": "col", "name": "コロンビア" }, { "id": "uzb", "name": "ウズベキスタン" }, { "id": "cod", "name": "コンゴ民主共和国" },
+  { "id": "GB-ENG", "name": "イングランド" }, { "id": "hrv", "name": "クロアチア" }, { "id": "pan", "name": "パナマ" }, { "id": "gha", "name": "ガーナ" }
 ]
