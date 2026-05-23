@@ -1,0 +1,11 @@
+[
+  { "id": "nhk", "name": "NHK", "type": "tv" },
+  { "id": "nhkbs", "name": "NHKBS", "type": "tv" },
+  { "id": "ntv", "name": "日本テレビ", "type": "tv" },
+  { "id": "cx", "name": "フジテレビ", "type": "tv" },
+  { "id": "tbs", "name": "TBS", "type": "tv" },
+  { "id": "ex", "name": "テレビ朝日", "type": "tv" },
+  { "id": "tx", "name": "テレビ東京", "type": "tv" },
+  { "id": "bsp4k", "name": "BSP4K", "type": "tv" },
+  { "id": "dazn", "name": "DAZN", "type": "internet" }
+]

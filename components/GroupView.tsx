@@ -1,7 +1,6 @@
 import Flag from "react-world-flags";
 import MatchCard from "./MatchCard";
-
-import { Match, Team } from "../types";
+import { Match, Team, MatchBroadcaster } from "./types";
 
 interface GroupViewProps {
   groupKey: string;
@@ -9,16 +8,17 @@ interface GroupViewProps {
   matches: Match[];
   groupMap: { [key: string]: string[] };
   timeMode: "browser" | "venue";
-  // 【追加】時間を切り替えるための関数を受け取るようにします
   setTimeMode: (mode: "browser" | "venue") => void;
+  // 【追加】放送局データを取得する関数を受け取る
+  getMatchBroadcasters: (matchId: number) => MatchBroadcaster[];
 }
 
-export default function GroupView({ groupKey, teams, matches, groupMap, timeMode, setTimeMode }: GroupViewProps) {
+export default function GroupView({ groupKey, teams, matches, groupMap, timeMode, setTimeMode, getMatchBroadcasters }: GroupViewProps) {
   const groupTeamIds = groupMap[groupKey] || [];
   const groupMatches = matches.filter((m) => m.group === groupKey);
   const getTeamName = (id: string) => teams.find((t) => t.id === id)?.name || "不明";
 
-  // 順位計算
+  // ... (順位計算ロジック・マトリクス計算ロジックはそのまま) ...
   const teamStats = groupTeamIds.map((id) => {
     let played = 0, won = 0, drawn = 0, lost = 0, points = 0, gf = 0, ga = 0;
     groupMatches.forEach((m) => {
@@ -41,7 +41,6 @@ export default function GroupView({ groupKey, teams, matches, groupMap, timeMode
     return { id, played, won, drawn, lost, points, gf, ga, gd: gf - ga };
   }).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf);
 
-  // 対戦マトリクス作成
   const matrix = groupTeamIds.map(rowId => 
     groupTeamIds.map(colId => {
       if (rowId === colId) return { type: "self" };
@@ -52,7 +51,7 @@ export default function GroupView({ groupKey, teams, matches, groupMap, timeMode
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {/* 順位表 */}
         <div className="bg-gray-800/50 border border-gray-800 rounded-2xl p-6">
           <h2 className="text-xl font-bold text-blue-400 mb-4">グループ {groupKey} 順位表</h2>
@@ -101,31 +100,28 @@ export default function GroupView({ groupKey, teams, matches, groupMap, timeMode
           </div>
         </div>
       </div>
-
+      
       {/* グループの日程 */}
       <div>
-        {/* 【変更】見出しとボタンを flex で横並びに配置 */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-800 pb-2 mb-4 gap-4">
           <h2 className="text-xl font-bold text-blue-400">グループ日程</h2>
-          
           <div className="flex gap-2 bg-gray-950 p-1 rounded-lg text-sm border border-gray-800">
-            <button 
-              onClick={() => setTimeMode("browser")} 
-              className={`px-3 py-1 rounded ${timeMode === "browser" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}
-            >
-              ブラウザ時刻
-            </button>
-            <button 
-              onClick={() => setTimeMode("venue")} 
-              className={`px-3 py-1 rounded ${timeMode === "venue" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}
-            >
-              現地時間
-            </button>
+            <button onClick={() => setTimeMode("browser")} className={`px-3 py-1 rounded ${timeMode === "browser" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}>端末時刻</button>
+            <button onClick={() => setTimeMode("venue")} className={`px-3 py-1 rounded ${timeMode === "venue" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}>現地時間</button>
           </div>
         </div>
 
         <div className="space-y-4">
-          {groupMatches.map(m => <MatchCard key={m.id} match={m} teams={teams} timeMode={timeMode} />)}
+          {/* 【修正】broadcasters を渡すように変更 */}
+          {groupMatches.map(m => (
+            <MatchCard 
+              key={m.id} 
+              match={m} 
+              teams={teams} 
+              timeMode={timeMode} 
+              broadcasters={getMatchBroadcasters(m.id)} 
+            />
+          ))}
         </div>
       </div>
     </div>

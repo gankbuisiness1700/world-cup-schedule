@@ -5,12 +5,14 @@ import Flag from "react-world-flags";
 
 import scheduleData from "../data/schedule.json";
 import teamData from "../data/teams.json";
+import broadcastersData from "../data/broadcasters.json";
+import matchBroadcastersData from "../data/match_broadcasters.json";
 
 // 分割したコンポーネントを読み込む（パスはフォルダ構成に合わせてください）
 import GroupView from "../components/GroupView"; 
 import TeamView from "../components/TeamView";
 import MatchCard from "../components/MatchCard";
-import { Match, Team, MatchTeam } from "../components/types";
+import { Match, Team, MatchBroadcaster } from "../components/types";
 
 const groupMap: { [key: string]: string[] } = {
   "A": ["mex", "kor", "zaf", "cze"],
@@ -55,6 +57,22 @@ export default function Home() {
     return true;
   });
 
+ const getMatchBroadcasters = (matchId: number) => {
+    const relation = matchBroadcastersData.find(mb => mb.matchId === matchId);
+    if (!relation) return [];
+    
+    // マスターデータ（局名・TVかネットか）と、個別の実況・解説データを結合する
+    return relation.broadcasters.map(bInfo => {
+      const masterInfo = broadcastersData.find(b => b.id === bInfo.id);
+      if (!masterInfo) return null;
+      return {
+        ...masterInfo,
+        playByPlay: bInfo.playByPlay,
+        commentator: bInfo.commentator
+      };
+    }).filter(b => b !== null) as MatchBroadcaster[];
+  };
+  
   return (
     <div className="flex h-screen bg-gray-950 text-white p-2 overflow-hidden">
       
@@ -120,8 +138,8 @@ export default function Home() {
             {activeMenu1 === "schedule" && activeMenu2 === "japan" && "日本代表日程"}
           </h1>
           
-           {activeMenu1 !== "team" &&<div className="flex gap-2 bg-gray-950 p-1 rounded-lg text-sm border border-gray-800">
-            <button onClick={() => setTimeMode("browser")} className={`px-3 py-1 rounded ${timeMode === "browser" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800"}`}>ブラウザ時刻</button>
+           {!(activeMenu1 === "team" || (activeMenu1 === "schedule" && activeMenu2.startsWith("group-"))) &&<div className="flex gap-2 bg-gray-950 p-1 rounded-lg text-sm border border-gray-800">
+            <button onClick={() => setTimeMode("browser")} className={`px-3 py-1 rounded ${timeMode === "browser" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800"}`}>端末時刻</button>
             <button onClick={() => setTimeMode("venue")} className={`px-3 py-1 rounded ${timeMode === "venue" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800"}`}>現地時間</button>
           </div>}
         </div>
@@ -138,6 +156,7 @@ export default function Home() {
                 groupMap={groupMap} 
                 timeMode={timeMode} 
                 setTimeMode={setTimeMode}
+                getMatchBroadcasters={getMatchBroadcasters}
               />
             ) : activeMenu2 === "group" ? (
               // グループ別の「全グループ」を選択した場合
@@ -147,7 +166,7 @@ export default function Home() {
                   <div key={key}>
                     <h2 className="text-xl font-bold text-blue-400 mb-4 border-b border-gray-800 pb-2">グループ {key}</h2>
                     <div className="space-y-4">
-                      {groupMatches.map(m => <MatchCard key={m.id} match={m} teams={teams} timeMode={timeMode} />)}
+                      {groupMatches.map(m => <MatchCard key={m.id} match={m} teams={teams} timeMode={timeMode} broadcasters={getMatchBroadcasters(m.id)} />)}
                     </div>
                   </div>
                 ) : null;
@@ -155,7 +174,7 @@ export default function Home() {
             ) : (
               // 全体日程・日本代表
               <div className="space-y-4">
-                {filteredMatches.map(m => <MatchCard key={m.id} match={m} teams={teams} timeMode={timeMode} />)}
+                {filteredMatches.map(m => <MatchCard key={m.id} match={m} teams={teams} timeMode={timeMode} broadcasters={getMatchBroadcasters(m.id)} />)}
               </div>
             )}
           </div>
@@ -169,6 +188,7 @@ export default function Home() {
             matches={matches} 
             timeMode={timeMode} 
             setTimeMode={setTimeMode}
+            getMatchBroadcasters={getMatchBroadcasters}
           />
         )}
       </div>
