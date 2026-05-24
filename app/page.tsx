@@ -77,7 +77,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-950 text-white md:p-2 overflow-hidden relative">
+    <div className="flex h-[100dvh] bg-gray-950 text-white md:p-2 overflow-hidden relative overscroll-none">
       {/* =========================================
           第1層ナビゲーション (PCは左サイド、スマホはボトム)
       ========================================= */}
@@ -228,7 +228,7 @@ export default function Home() {
           メイン画面
       ========================================= */}
       {/* スマホ時はボトムナビの分だけ下部に余白(pb-20)を空ける */}
-      <div className="flex-1 p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto bg-gray-900 text-white min-w-0 md:rounded-2xl shadow-2xl md:ml-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <div className="flex-1 p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto overscroll-y-none bg-gray-900 text-white min-w-0 md:rounded-2xl shadow-2xl md:ml-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {/* ヘッダー部分 */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between border-b border-gray-800 pb-4 mb-6 gap-4">
           <h1 className="text-xl md:text-2xl font-bold text-white">
