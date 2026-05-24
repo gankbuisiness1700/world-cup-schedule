@@ -9,7 +9,6 @@ interface GroupViewProps {
   groupMap: { [key: string]: string[] };
   timeMode: "browser" | "venue";
   setTimeMode: (mode: "browser" | "venue") => void;
-  // 【追加】放送局データを取得する関数を受け取る
   getMatchBroadcasters: (matchId: number) => MatchBroadcaster[];
 }
 
@@ -26,7 +25,7 @@ export default function GroupView({
   const groupMatches = matches.filter((m) => m.group === groupKey);
   const getTeamName = (id: string) => teams.find((t) => t.id === id)?.name || "不明";
 
-  // ... (順位計算ロジック・マトリクス計算ロジックはそのまま) ...
+  // 順位計算ロジック
   const teamStats = groupTeamIds
     .map((id) => {
       let played = 0,
@@ -71,6 +70,7 @@ export default function GroupView({
     })
     .sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf);
 
+  // マトリクス計算ロジック
   const matrix = groupTeamIds.map((rowId) =>
     groupTeamIds.map((colId) => {
       if (rowId === colId) return { type: "self" };
@@ -84,59 +84,73 @@ export default function GroupView({
   );
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {/* 順位表 */}
-        <div className="bg-gray-800/50 border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-blue-400 mb-4">グループ {groupKey} 順位表</h2>
-          <table className="w-full text-sm text-left">
-            <thead className="text-gray-400 border-b border-gray-700">
-              <tr>
-                <th className="pb-2">順位</th>
-                <th className="pb-2">チーム</th>
-                <th className="pb-2">試</th>
-                <th className="pb-2">勝</th>
-                <th className="pb-2">分</th>
-                <th className="pb-2">負</th>
-                <th className="pb-2">差</th>
-                <th className="pb-2 text-white font-bold">点</th>
-              </tr>
-            </thead>
-            <tbody>
-              {teamStats.map((stat, i) => (
-                <tr key={stat.id} className="border-b border-gray-800/50">
-                  <td className="py-3 font-bold text-gray-300">{i + 1}</td>
-                  <td className="py-3 flex items-center gap-2">
-                    <Flag code={stat.id} className="w-6 h-4 border border-gray-600 rounded-sm" />
-                    {getTeamName(stat.id)}
-                  </td>
-                  <td className="py-3 text-center">{stat.played}</td>
-                  <td className="py-3 text-center">{stat.won}</td>
-                  <td className="py-3 text-center">{stat.drawn}</td>
-                  <td className="py-3 text-center">{stat.lost}</td>
-                  <td className="py-3 text-center">{stat.gd > 0 ? `+${stat.gd}` : stat.gd}</td>
-                  <td className="py-3 text-center font-bold text-blue-400 text-lg">
-                    {stat.points}
-                  </td>
+    <div className="space-y-6 md:space-y-8 animate-fade-in">
+      {/* 順位表と対戦表のグリッド */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8 min-w-0">
+        {/* --- 順位表 --- */}
+        <div className="bg-gray-800/50 border border-gray-800 rounded-xl md:rounded-2xl p-4 md:p-6 overflow-hidden">
+          <h2 className="text-lg md:text-xl font-bold text-blue-400 mb-3 md:mb-4">
+            グループ {groupKey} 順位表
+          </h2>
+          {/* overflow-x-auto でスマホ時の横スクロールを許可 */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs md:text-sm text-left min-w-[300px]">
+              <thead className="text-gray-400 border-b border-gray-700 whitespace-nowrap">
+                <tr>
+                  <th className="pb-2 px-1">順位</th>
+                  <th className="pb-2 px-2">チーム</th>
+                  <th className="pb-2 text-center w-8">試</th>
+                  <th className="pb-2 text-center w-8">勝</th>
+                  <th className="pb-2 text-center w-8">分</th>
+                  <th className="pb-2 text-center w-8">負</th>
+                  <th className="pb-2 text-center w-8">差</th>
+                  <th className="pb-2 text-center text-white font-bold w-8">点</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {teamStats.map((stat, i) => (
+                  <tr key={stat.id} className="border-b border-gray-800/50">
+                    <td className="py-2 md:py-3 px-1 font-bold text-gray-300">{i + 1}</td>
+                    <td className="py-2 md:py-3 px-2 flex items-center gap-1.5 md:gap-2">
+                      <Flag
+                        code={stat.id}
+                        className="w-5 h-3 md:w-6 md:h-4 border border-gray-600 rounded-sm shrink-0"
+                      />
+                      <span className="truncate max-w-[80px] md:max-w-none">
+                        {getTeamName(stat.id)}
+                      </span>
+                    </td>
+                    <td className="py-2 md:py-3 text-center text-gray-300">{stat.played}</td>
+                    <td className="py-2 md:py-3 text-center text-gray-300">{stat.won}</td>
+                    <td className="py-2 md:py-3 text-center text-gray-300">{stat.drawn}</td>
+                    <td className="py-2 md:py-3 text-center text-gray-300">{stat.lost}</td>
+                    <td className="py-2 md:py-3 text-center text-gray-300">
+                      {stat.gd > 0 ? `+${stat.gd}` : stat.gd}
+                    </td>
+                    <td className="py-2 md:py-3 text-center font-bold text-blue-400 text-base md:text-lg">
+                      {stat.points}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* 対戦マトリクス */}
-        <div className="bg-gray-800/50 border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-blue-400 mb-4">対戦表</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-center">
+        {/* --- 対戦マトリクス --- */}
+        <div className="bg-gray-800/50 border border-gray-800 rounded-xl md:rounded-2xl p-4 md:p-6 overflow-hidden">
+          <h2 className="text-lg md:text-xl font-bold text-blue-400 mb-3 md:mb-4">対戦表</h2>
+          {/* 確実な横スクロール制御 */}
+          <div className="overflow-x-auto pb-2">
+            <table className="w-full text-center text-xs md:text-sm min-w-[320px]">
               <thead>
                 <tr>
-                  <th className="p-2"></th>
+                  <th className="p-1 md:p-2 w-1/5 min-w-[80px]"></th>
                   {groupTeamIds.map((id) => (
-                    <th key={id} className="p-2">
+                    <th key={id} className="p-1 md:p-2">
                       <Flag
                         code={id}
-                        className="w-8 h-5 mx-auto border border-gray-600 rounded-sm"
+                        className="w-6 h-4 md:w-8 md:h-5 mx-auto border border-gray-600 rounded-sm"
                       />
                     </th>
                   ))}
@@ -145,22 +159,27 @@ export default function GroupView({
               <tbody>
                 {groupTeamIds.map((rowId, i) => (
                   <tr key={rowId} className="border-t border-gray-700">
-                    <td className="p-2 text-left font-bold">
+                    {/* 左側のチーム名 */}
+                    <td className="p-1 md:p-2 text-left font-bold flex items-center h-full min-h-[36px] md:min-h-[44px]">
                       <Flag
                         code={rowId}
-                        className="w-8 h-5 inline-block mr-2 border border-gray-600 rounded-sm"
+                        className="w-5 h-3 md:w-6 md:h-4 inline-block mr-1.5 md:mr-2 border border-gray-600 rounded-sm shrink-0"
                       />
-                      {getTeamName(rowId)}
+                      <span className="truncate max-w-[60px] md:max-w-none">
+                        {getTeamName(rowId)}
+                      </span>
                     </td>
+
+                    {/* セル */}
                     {matrix[i].map((cell, j) => (
                       <td
                         key={j}
-                        className="p-2 border-l border-gray-700 text-sm font-bold bg-gray-900/50"
+                        className="p-1 md:p-2 border-l border-gray-700 font-bold bg-gray-900/50 min-w-[40px] md:min-w-[60px]"
                       >
                         {cell.type === "self" ? (
                           <span className="text-gray-600">-</span>
                         ) : cell.match?.status !== "未試合" ? (
-                          <span className="text-white">
+                          <span className="text-white whitespace-nowrap">
                             {cell.match?.teamA.id === rowId
                               ? cell.match.teamA.score
                               : cell.match?.teamB.score}{" "}
@@ -182,20 +201,22 @@ export default function GroupView({
         </div>
       </div>
 
-      {/* グループの日程 */}
+      {/* --- グループの日程 --- */}
       <div>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-800 pb-2 mb-4 gap-4">
-          <h2 className="text-xl font-bold text-blue-400">グループ日程</h2>
-          <div className="flex gap-2 bg-gray-950 p-1 rounded-lg text-sm border border-gray-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-800 pb-3 md:pb-2 mb-4 gap-3 md:gap-4">
+          <h2 className="text-lg md:text-xl font-bold text-blue-400">グループ日程</h2>
+
+          {/* ヘッダーにあるので、グループ画面内での切替は隠すかシンプルにする */}
+          <div className="flex gap-2 bg-gray-950 p-1 rounded-lg text-sm border border-gray-800 w-fit">
             <button
               onClick={() => setTimeMode("browser")}
-              className={`px-3 py-1 rounded ${timeMode === "browser" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}
+              className={`px-3 py-1.5 md:py-1 rounded ${timeMode === "browser" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}
             >
               端末時刻
             </button>
             <button
               onClick={() => setTimeMode("venue")}
-              className={`px-3 py-1 rounded ${timeMode === "venue" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}
+              className={`px-3 py-1.5 md:py-1 rounded ${timeMode === "venue" ? "bg-gray-800 shadow font-bold text-white" : "text-gray-400 hover:bg-gray-800 transition-colors"}`}
             >
               現地時間
             </button>
@@ -203,7 +224,6 @@ export default function GroupView({
         </div>
 
         <div className="space-y-4">
-          {/* 【修正】broadcasters を渡すように変更 */}
           {groupMatches.map((m) => (
             <MatchCard
               key={m.id}
