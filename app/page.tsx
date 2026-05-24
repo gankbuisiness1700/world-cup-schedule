@@ -12,7 +12,7 @@ import matchBroadcastersData from "../data/match_broadcasters.json";
 import GroupView from "../components/GroupView";
 import TeamView from "../components/TeamView";
 import MatchCard from "../components/MatchCard";
-import { Match, Team, MatchBroadcaster } from "../components/types";
+import { Match, Team, MatchBroadcaster } from "../types/types";
 
 const groupMap: { [key: string]: string[] } = {
   A: ["mex", "kor", "zaf", "cze"],
