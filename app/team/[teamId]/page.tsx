@@ -10,6 +10,7 @@ import broadcastersData from "../../../data/broadcasters.json";
 import matchBroadcastersData from "../../../data/match_broadcasters.json";
 
 import TeamView from "../../../components/TeamView";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 import { Match, Team, MatchBroadcaster } from "../../../types/types";
 
 const groupMap: { [key: string]: string[] } = {
@@ -75,6 +76,13 @@ export default function TeamDetailPage() {
 
   return (
     <div className="flex-1 p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto bg-gray-900 text-white min-w-0 md:rounded-2xl shadow-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      {/* 【追加】ここにパンくずリストを配置 */}
+      <Breadcrumbs
+        items={[
+          { name: "チーム", href: "/" },
+          { name: `${targetTeam.name}代表`, href: `/team/${teamId}` },
+        ]}
+      />
       {/* 既にスマホ対応化・機能改修を済ませた TeamView をそのまま再利用 */}
       <TeamView
         teamId={teamId}

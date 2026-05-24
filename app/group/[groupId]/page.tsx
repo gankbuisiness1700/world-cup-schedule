@@ -10,6 +10,7 @@ import broadcastersData from "../../../data/broadcasters.json";
 import matchBroadcastersData from "../../../data/match_broadcasters.json";
 
 import GroupView from "../../../components/GroupView";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 import { Match, Team, MatchBroadcaster } from "../../../types/types";
 
 const groupMap: { [key: string]: string[] } = {
@@ -66,6 +67,13 @@ export default function GroupPage() {
 
   return (
     <div className="flex-1 p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto bg-gray-900 text-white min-w-0 md:rounded-2xl shadow-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      {/* 【追加】ここにパンくずリストを配置 */}
+      <Breadcrumbs
+        items={[
+          { name: "日程", href: "/" },
+          { name: `グループ ${groupId}`, href: `/group/${groupId}` },
+        ]}
+      />
       {/* ヘッダー部分 */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between border-b border-gray-800 pb-4 mb-6 gap-4">
         <h1 className="text-xl md:text-2xl font-bold text-white">グループ {groupId}</h1>
