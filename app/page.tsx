@@ -125,7 +125,7 @@ export default function Home() {
       {openSidebar && (
         <div
           className="
-          fixed inset-0 z-40 bg-gray-950 p-6 pt-12 overflow-y-auto overscroll-y-none
+          fixed inset-0 z-40 bg-gray-950 p-6 pt-12 pb-32 overflow-y-auto overscroll-y-none
           md:relative md:inset-auto md:w-56 md:p-0 md:pt-6 md:pr-4 md:bg-transparent md:z-10
           shrink-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
         "
