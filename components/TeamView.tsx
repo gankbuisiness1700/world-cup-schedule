@@ -30,9 +30,10 @@ export default function TeamView({ teamId, teams, matches, timeMode, setTimeMode
           <h2 className="text-3xl font-bold text-white">{targetTeam.name}</h2>
         </div>
       </div>
-    <div>
+   <div>
+        <h2 className="text-xl font-bold text-blue-400 mb-4">登録メンバー</h2>
         <TeamPlayers teamId={teamId} players={players} />
-    </div>
+      </div>
       {/* 試合日程セクション */}
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-800 pb-2 mb-4 gap-4">
